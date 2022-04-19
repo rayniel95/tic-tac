@@ -5,6 +5,7 @@ import './index.css';
 
 type SquareProps = {
     value: number
+    playerNumber: boolean
 }
 
 function Square(props: SquareProps): JSX.Element {
@@ -17,9 +18,23 @@ function Square(props: SquareProps): JSX.Element {
     );
 }
 
-function Board(): JSX.Element {
+type BoardProps = {
+    playerNumber: boolean
+}
+
+function Board({ playerNumber }: BoardProps): JSX.Element {
+    const [board, setBoard] = useState(
+        [...Array(3)].map(
+            (_, indexFirst: number) => {
+                return [...Array(3)].map(
+                    (valueSecond: number) => (3 * indexFirst + valueSecond).toString()
+                )
+            }
+        )
+    );
+
     function renderSquare(i: any) {
-        return <Square value={i} />;
+        return <Square value={i} playerNumber={playerNumber} />;
     }
     const status = 'Next player: X';
 
@@ -51,7 +66,7 @@ function Game(): JSX.Element {
     return (
         <div className="game">
             <div className="game-board">
-                <Board />
+                <Board playerNumber={player} />
             </div>
             <div className="game-info">
                 <div>{/* status */}</div>

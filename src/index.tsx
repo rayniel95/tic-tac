@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -8,16 +8,18 @@ type SquareProps = {
 }
 
 function Square(props: SquareProps): JSX.Element {
+    const [clicked, setClicked] = useState(false);
+
     return (
-        <button className="square">
-            {props.value}
+        <button className="square" onClick={() => setClicked(!clicked)}>
+            {clicked ? "X" : props.value}
         </button>
     );
 }
 
 function Board(): JSX.Element {
     function renderSquare(i: any) {
-        return <Square value={i}/>;
+        return <Square value={i} />;
     }
     const status = 'Next player: X';
 
@@ -44,6 +46,8 @@ function Board(): JSX.Element {
 }
 
 function Game(): JSX.Element {
+    const [player, setPlayer] = useState(true);
+
     return (
         <div className="game">
             <div className="game-board">

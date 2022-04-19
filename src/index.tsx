@@ -1,20 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createFunctionDeclaration } from 'typescript';
 import './index.css';
 
 
-function Square(): JSX.Element {
+type SquareProps = {
+    value: number
+}
+
+function Square(props: SquareProps): JSX.Element {
     return (
         <button className="square">
-            {/* TODO */}
+            {props.value}
         </button>
     );
 }
 
 function Board(): JSX.Element {
     function renderSquare(i: any) {
-        return <Square />;
+        return <Square value={i}/>;
     }
     const status = 'Next player: X';
 

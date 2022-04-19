@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createFunctionDeclaration } from 'typescript';
 import './index.css';
 
 
@@ -39,20 +40,18 @@ function Board(): JSX.Element {
     );
 }
 
-class Game extends React.Component {
-    render() {
-        return (
-            <div className="game">
-                <div className="game-board">
-                    <Board />
-                </div>
-                <div className="game-info">
-                    <div>{/* status */}</div>
-                    <ol>{/* TODO */}</ol>
-                </div>
+function Game(): JSX.Element {
+    return (
+        <div className="game">
+            <div className="game-board">
+                <Board />
             </div>
-        );
-    }
+            <div className="game-info">
+                <div>{/* status */}</div>
+                <ol>{/* TODO */}</ol>
+            </div>
+        </div>
+    );
 }
 
 // ========================================

@@ -42,3 +42,10 @@ export function checkX(board: string[]): string {
 
     return X1 ? X1 : X2;
 }
+
+export function end(board: string[]): boolean{
+    for(let number of board){
+        if(!isNaN(Number(number))) return false;
+    }
+    return true;
+}

@@ -16,14 +16,6 @@ function Square(props: SquareProps): JSX.Element {
     );
 }
 
-interface Player {
-    playerNumber: boolean,
-    setPlayerNumber: (arg0: boolean) => void
-}
-
-type BoardProps = {
-    player: Player
-}
 
 function Board(): JSX.Element {
     const [board, setBoard] = useState(

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { haveWinner } from './utils/checkBoard';
 
 
 type SquareProps = {
@@ -25,15 +26,20 @@ function Board(): JSX.Element {
         })
     );
     const [playerNumber, setPlayerNumber] = useState(true);
+    const [winner, setWinner] = useState<string>("");
 
     // REVIEW - this should be a hook
     function mutateState(index: string) {
         const indexNumber = Number(index);
-        if(isNaN(indexNumber)){
+        if(isNaN(indexNumber) || winner){
             return;
         }
         const newBoard = board.slice();
         newBoard[indexNumber] = playerNumber? "X": "O";
+        
+        const win = haveWinner(newBoard);
+        if(win) setWinner(win);
+
         setBoard(newBoard);
         setPlayerNumber(!playerNumber);
     }

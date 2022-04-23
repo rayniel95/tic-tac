@@ -25,7 +25,7 @@ type BoardProps = {
     player: Player
 }
 
-function Board({ player }: BoardProps): JSX.Element {
+function Board(): JSX.Element {
     const [board, setBoard] = useState(
         Array.from(Array(9).keys()).map((value: number)=>{
             console.log(value);
@@ -74,12 +74,10 @@ function Board({ player }: BoardProps): JSX.Element {
 }
 
 function Game(): JSX.Element {
-    const [player, setPlayer] = useState(true);
-
     return (
         <div className="game">
             <div className="game-board">
-                <Board player={{ playerNumber: player, setPlayerNumber: setPlayer }} />
+                <Board />
             </div>
             <div className="game-info">
                 <div>{/* status */}</div>

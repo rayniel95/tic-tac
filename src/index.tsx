@@ -4,57 +4,70 @@ import './index.css';
 
 
 type SquareProps = {
-    value: number
-    playerNumber: boolean
+    value: string
+    onClick: (arg0: string) => void
 }
 
 function Square(props: SquareProps): JSX.Element {
-    const [clicked, setClicked] = useState(false);
-
     return (
-        <button className="square" onClick={() => setClicked(!clicked)}>
-            {clicked ? "X" : props.value}
+        <button className="square" onClick={() => props.onClick(props.value)}>
+            {props.value}
         </button>
     );
 }
 
-type BoardProps = {
-    playerNumber: boolean
+interface Player {
+    playerNumber: boolean,
+    setPlayerNumber: (arg0: boolean) => void
 }
 
-function Board({ playerNumber }: BoardProps): JSX.Element {
-    const [board, setBoard] = useState(
-        [...Array(3)].map(
-            (_, indexFirst: number) => {
-                return [...Array(3)].map(
-                    (valueSecond: number) => (3 * indexFirst + valueSecond).toString()
-                )
-            }
-        )
-    );
+type BoardProps = {
+    player: Player
+}
 
-    function renderSquare(i: any) {
-        return <Square value={i} playerNumber={playerNumber} />;
+function Board({ player }: BoardProps): JSX.Element {
+    const [board, setBoard] = useState(
+        Array.from(Array(9).keys()).map((value: number)=>{
+            console.log(value);
+            return value.toString()
+        })
+    );
+    const [playerNumber, setPlayerNumber] = useState(true);
+
+    // REVIEW - this should be a hook
+    function mutateState(index: string) {
+        const indexNumber = Number(index);
+        if(isNaN(indexNumber)){
+            return;
+        }
+        const newBoard = board.slice();
+        newBoard[indexNumber] = playerNumber? "X": "O";
+        setBoard(newBoard);
+        setPlayerNumber(!playerNumber);
     }
-    const status = 'Next player: X';
+
+    function renderSquare(i: string) {
+        return <Square value={i} onClick={mutateState} />;
+    }
+    const status = `Next player: ${playerNumber}`;
 
     return (
         <div>
             <div className="status">{status}</div>
             <div className="board-row">
-                {renderSquare(0)}
-                {renderSquare(1)}
-                {renderSquare(2)}
+                {renderSquare(board[0])}
+                {renderSquare(board[1])}
+                {renderSquare(board[2])}
             </div>
             <div className="board-row">
-                {renderSquare(3)}
-                {renderSquare(4)}
-                {renderSquare(5)}
+                {renderSquare(board[3])}
+                {renderSquare(board[4])}
+                {renderSquare(board[5])}
             </div>
             <div className="board-row">
-                {renderSquare(6)}
-                {renderSquare(7)}
-                {renderSquare(8)}
+                {renderSquare(board[6])}
+                {renderSquare(board[7])}
+                {renderSquare(board[8])}
             </div>
         </div>
     );
@@ -66,7 +79,7 @@ function Game(): JSX.Element {
     return (
         <div className="game">
             <div className="game-board">
-                <Board playerNumber={player} />
+                <Board player={{ playerNumber: player, setPlayerNumber: setPlayer }} />
             </div>
             <div className="game-info">
                 <div>{/* status */}</div>
